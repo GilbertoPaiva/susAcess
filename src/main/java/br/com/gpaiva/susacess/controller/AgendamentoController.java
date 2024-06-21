@@ -1,7 +1,4 @@
 package br.com.gpaiva.susacess.controller;
-
-
-
 import br.com.gpaiva.susacess.model.dto.AgendamentoInputDTO;
 import br.com.gpaiva.susacess.model.dto.AgendamentoOutDTO;
 import br.com.gpaiva.susacess.service.AgendamentoService;
@@ -22,6 +19,5 @@ public class AgendamentoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(agendamentoOutDTO);
     }
 
-    // Outros endpoints podem ser adicionados aqui
 }
 
