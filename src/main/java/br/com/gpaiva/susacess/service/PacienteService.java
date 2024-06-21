@@ -10,6 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PacienteService {
     @Autowired
@@ -23,4 +26,28 @@ public class PacienteService {
         paciente = pacienteRepository.save(paciente);
         return modelMapper.map(paciente, PacienteOutDTO.class);
     }
+
+    public PacienteOutDTO obterPaciente(Long id) {
+        Paciente paciente = pacienteRepository.findById(id).orElseThrow();
+        return modelMapper.map(paciente, PacienteOutDTO.class);
+    }
+
+    public List<PacienteOutDTO> listarPacientes() {
+        List<Paciente> pacientes = pacienteRepository.findAll();
+        return pacientes.stream()
+                .map(paciente -> modelMapper.map(paciente, PacienteOutDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public PacienteOutDTO atualizarPaciente(Long id, PacienteInputDTO pacienteInputDTO) {
+        Paciente paciente = pacienteRepository.findById(id).orElseThrow();
+        modelMapper.map(pacienteInputDTO, paciente);
+        paciente = pacienteRepository.save(paciente);
+        return modelMapper.map(paciente, PacienteOutDTO.class);
+    }
+
+    public void deletarPaciente(Long id) {
+        pacienteRepository.deleteById(id);
+    }
+
 }

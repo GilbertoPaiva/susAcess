@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/pacientes")
 public class PacienteController {
@@ -21,5 +23,28 @@ public class PacienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pacienteOutDTO);
     }
 
-    // Outros endpoints podem ser adicionados aqui
+    @GetMapping("/{id}")
+    public ResponseEntity<PacienteOutDTO> obterPaciente(@PathVariable Long id) {
+        PacienteOutDTO pacienteOutDTO = pacienteService.obterPaciente(id);
+        return ResponseEntity.ok(pacienteOutDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PacienteOutDTO>> listarPacientes() {
+        List<PacienteOutDTO> pacientes = pacienteService.listarPacientes();
+        return ResponseEntity.ok(pacientes);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PacienteOutDTO> atualizarPaciente(@PathVariable Long id, @RequestBody PacienteInputDTO pacienteInputDTO) {
+        PacienteOutDTO pacienteOutDTO = pacienteService.atualizarPaciente(id, pacienteInputDTO);
+        return ResponseEntity.ok(pacienteOutDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPaciente(@PathVariable Long id) {
+        pacienteService.deletarPaciente(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
