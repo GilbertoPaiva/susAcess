@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/agendamentos")
 public class AgendamentoController {
@@ -19,5 +21,30 @@ public class AgendamentoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(agendamentoOutDTO);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AgendamentoOutDTO> obterAgendamento(@PathVariable Long id) {
+        AgendamentoOutDTO agendamentoOutDTO = agendamentoService.obterAgendamento(id);
+        return ResponseEntity.ok(agendamentoOutDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AgendamentoOutDTO>> listarAgendamentos() {
+        List<AgendamentoOutDTO> agendamentos = agendamentoService.listarAgendamentos();
+        return ResponseEntity.ok(agendamentos);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AgendamentoOutDTO> atualizarAgendamento(@PathVariable Long id, @RequestBody AgendamentoInputDTO agendamentoInputDTO) {
+        AgendamentoOutDTO agendamentoOutDTO = agendamentoService.atualizarAgendamento(id, agendamentoInputDTO);
+        return ResponseEntity.ok(agendamentoOutDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> cancelarAgendamento(@PathVariable Long id) {
+        agendamentoService.cancelarAgendamento(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+
+
 
